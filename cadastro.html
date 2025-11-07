@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar Processo</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <h1>Sistema de Processos Jurídicos</h1>
+</header>
+
+<nav>
+  <a href="../index.html">Início</a>
+  <a href="processos.html">Processos</a>
+  <a href="../advogados/advogados.html">Advogados</a>
+</nav>
+
+<main>
+  <h2>Novo Processo</h2>
+  <form action="salvar-processo.php" method="POST">
+    <label>Nº do Processo:</label><br>
+    <input type="text" name="numero_processo" required><br><br>
+
+    <label>Advogado Responsável:</label><br>
+    <select name="advogado_id" required>
+      <option value="1">João Silva</option>
+      <option value="2">Maria Souza</option>
+    </select><br><br>
+
+    <label>Status:</label><br>
+    <select name="status">
+      <option value="em andamento">Em Andamento</option>
+      <option value="concluído">Concluído</option>
+      <option value="suspenso">Suspenso</option>
+    </select><br><br>
+
+    <label>Prazo:</label><br>
+    <input type="date" name="prazo"><br><br>
+
+    <label>Descrição:</label><br>
+    <textarea name="descricao" rows="5" cols="40"></textarea><br><br>
+
+    <button type="submit" class="button">Salvar</button>
+  </form>
+</main>
+
+<footer class="rodape">
+  &copy; 2025 Sistema Jurídico
+</footer>
+
+</body>
+</html>

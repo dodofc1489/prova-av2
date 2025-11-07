@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Advogados</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <h1>Sistema de Processos Jurídicos</h1>
+</header>
+
+<nav>
+  <a href="../index.html">Início</a>
+  <a href="../processos/processos.html">Processos</a>
+  <a href="advogados.html">Advogados</a>
+  <a href="../login/login.html">Login</a>
+</nav>
+
+<main>
+  <h2>Lista de Advogados</h2>
+  <button class="button" onclick="abrirFormulario()">+ Novo Advogado</button>
+
+  <table id="tabelaAdvogados">
+    <tr>
+      <th>Nome</th>
+      <th>OAB</th>
+      <th>Email</th>
+      <th>Ações</th>
+    </tr>
+    <tr>
+      <td>Travis</td>
+      <td>123456/OAB-CE</td>
+      <td>trv@exemplo.com</td>
+      <td>
+        <button class="button" onclick="editarAdvogado(this)">Editar</button>
+        <button class="button" onclick="excluirAdvogado(this)">Excluir</button>
+      </td>
+    </tr>
+    <tr>
+      <td>Jessica</td>
+      <td>789012/OAB-CE</td>
+      <td>js@exemplo.com</td>
+      <td>
+        <button class="button" onclick="editarAdvogado(this)">Editar</button>
+        <button class="button" onclick="excluirAdvogado(this)">Excluir</button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Formulário oculto de cadastro/edição -->
+  <section id="formAdvogado" style="display:none; margin-top:30px;">
+    <h3 id="tituloFormulario">Cadastrar Advogado</h3>
+    <form onsubmit="salvarAdvogado(event)">
+      <label>Nome:</label><br>
+      <input type="text" id="nome" required class="campo"><br><br>
+
+      <label>OAB:</label><br>
+      <input type="text" id="oab" required class="campo"><br><br>
+
+      <label>Email:</label><br>
+      <input type="email" id="email" required class="campo"><br><br>
+
+      <input type="hidden" id="indiceEdicao">
+      <button type="submit" class="botao">Salvar</button>
+      <button type="button" class="botao" onclick="cancelar()">Cancelar</button>
+    </form>
+  </section>
+</main>
+
+<footer class="rodape">
+  &copy; 2025 Sistema Jurídico
+</footer>
+
+<script>
+  function abrirFormulario() {
+    document.getElementById("formAdvogado").style.display = "block";
+    document.getElementById("tituloFormulario").textContent = "Cadastrar Advogado";
+    document.getElementById("nome").value = "";
+    document.getElementById("oab").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("indiceEdicao").value = "";
+  }
+
+  function cancelar() {
+    document.getElementById("formAdvogado").style.display = "none";
+  }
+
+  function salvarAdvogado(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const oab = document.getElementById("oab").value;
+    const email = document.getElementById("email").value;
+    const indice = document.getElementById("indiceEdicao").value;
+
+    const tabela = document.getElementById("tabelaAdvogados");
+
+    // Editar advogado existente
+    if (indice) {
+      const linha = tabela.rows[indice];
+      linha.cells[0].textContent = nome;
+      linha.cells[1].textContent = oab;
+      linha.cells[2].textContent = email;
+      alert("Advogado atualizado com sucesso!");
+    } 
+    // Adicionar novo advogado
+    else {
+      const novaLinha = tabela.insertRow(-1);
+      novaLinha.insertCell(0).textContent = nome;
+      novaLinha.insertCell(1).textContent = oab;
+      novaLinha.insertCell(2).textContent = email;
+      const acoes = novaLinha.insertCell(3);
+      acoes.innerHTML = `
+        <button class="button" onclick="editarAdvogado(this)">Editar</button>
+        <button class="button" onclick="excluirAdvogado(this)">Excluir</button>
+      `;
+      alert("Advogado cadastrado com sucesso!");
+    }
+
+    document.getElementById("formAdvogado").style.display = "none";
+  }
+
+  function editarAdvogado(botao) {
+    const linha = botao.parentNode.parentNode;
+    const indice = linha.rowIndex;
+    const nome = linha.cells[0].textContent;
+    const oab = linha.cells[1].textContent;
+    const email = linha.cells[2].textContent;
+
+    document.getElementById("formAdvogado").style.display = "block";
+    document.getElementById("tituloFormulario").textContent = "Editar Advogado";
+    document.getElementById("nome").value = nome;
+    document.getElementById("oab").value = oab;
+    document.getElementById("email").value = email;
+    document.getElementById("indiceEdicao").value = indice;
+  }
+
+  function excluirAdvogado(botao) {
+    if (confirm("Deseja realmente excluir este advogado?")) {
+      const linha = botao.parentNode.parentNode;
+      linha.remove();
+      alert("Advogado excluído com sucesso!");
+    }
+  }
+</script>
+
+</body>
+</html>

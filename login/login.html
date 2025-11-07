@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <h1>Sistema de Processos Jurídicos</h1>
+</header>
+
+<nav>
+  <a href="../index.html">Início</a>
+  <a href="../processos/processos.html">Processos</a>
+  <a href="../advogados/advogados.html">Advogados</a>
+  <a href="login.html">Login</a>
+</nav>
+
+<main>
+  <form class="login" onsubmit="return login()">
+    
+    <label for="usuario">Usuário:</label><br>
+    <input type="text" id="usuario" name="usuario" required><br><br>
+      
+    <label for="senha">Senha:</label><br>
+    <input type="password" id="senha" name="senha" required><br><br>
+
+    <button type="submit">Entrar</button>
+
+    <a href="cadastro_usuario.html" style="margin-top: 20px;">Cadastrar Novo Usuário</a>
+
+    <!-- ✅ Novo botão: redireciona para a tela de cadastro -->
+    <!-- <button type="button" onclick="window.location.href='cadastro_usuario.html'">
+      Cadastrar Novo Usuário
+    </button> -->
+  </form>
+</main>
+
+<footer class="rodape">
+  &copy; 2025 Sistema Jurídico
+</footer>
+
+<script>
+  function login() {
+    // Simulação de login — depois você pode conectar ao backend
+    window.location.href = "../index.html";
+    return false; 
+  }
+</script>
+
+</body>
+</html>

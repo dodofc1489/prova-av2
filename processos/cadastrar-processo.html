@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Processos</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <h1>Sistema de Processos Jurídicos</h1>
+</header>
+
+<nav>
+  <a href="../index.html">Início</a>
+  <a href="processos.html">Processos</a>
+  <a href="../advogados/advogados.html">Advogados</a>
+  <a href="../login/login.html">Login</a>
+</nav>
+
+<main>
+  <h2>Lista de Processos</h2>
+  <button class="button" onclick="abrirFormulario()">+ Novo Processo</button>
+
+  <table id="tabelaProcessos">
+    <tr>
+      <th>Nº do Processo</th>
+      <th>Advogado Responsável</th>
+      <th>Status</th>
+      <th>Prazo</th>
+      <th>Descrição</th>
+      <th>Ações</th>
+    </tr>
+    <tr>
+      <td>001/2025</td>
+      <td>João Silva</td>
+      <td>Em andamento</td>
+      <td>2025-12-20</td>
+      <td>Processo trabalhista.</td>
+      <td>
+        <button class="button" onclick="editarProcesso(this)">Editar</button>
+        <button class="button" onclick="excluirProcesso(this)">Excluir</button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Formulário de cadastro/edição de processos -->
+  <section id="formProcesso" style="display:none; margin-top:30px;">
+    <h3 id="tituloFormulario">Cadastrar Processo</h3>
+    <form onsubmit="salvarProcesso(event)">
+      <label>Nº do Processo:</label><br>
+      <input type="text" id="numero" required class="campo"><br><br>
+
+      <label>Advogado Responsável:</label><br>
+      <input type="text" id="advogado" required class="campo"><br><br>
+
+      <label>Status:</label><br>
+      <select id="status" class="campo">
+        <option value="Em andamento">Em andamento</option>
+        <option value="Concluído">Concluído</option>
+        <option value="Suspenso">Suspenso</option>
+      </select><br><br>
+
+      <label>Prazo:</label><br>
+      <input type="date" id="prazo" class="campo"><br><br>
+
+      <label>Descrição:</label><br>
+      <textarea id="descricao" rows="4" cols="40" class="campo"></textarea><br><br>
+
+      <input type="hidden" id="indiceEdicao">
+      <button type="submit" class="botao">Salvar</button>
+      <button type="button" class="botao" onclick="cancelar()">Cancelar</button>
+    </form>
+  </section>
+</main>
+
+<footer class="rodape">
+  &copy; 2025 Sistema Jurídico
+</footer>
+
+<script>
+  function abrirFormulario() {
+    document.getElementById("formProcesso").style.display = "block";
+    document.getElementById("tituloFormulario").textContent = "Cadastrar Processo";
+    document.getElementById("indiceEdicao").value = "";
+    document.getElementById("numero").value = "";
+    document.getElementById("advogado").value = "";
+    document.getElementById("status").value = "Em andamento";
+    document.getElementById("prazo").value = "";
+    document.getElementById("descricao").value = "";
+  }
+
+  function cancelar() {
+    document.getElementById("formProcesso").style.display = "none";
+  }
+
+  function salvarProcesso(event) {
+    event.preventDefault();
+
+    const numero = document.getElementById("numero").value;
+    const advogado = document.getElementById("advogado").value;
+    const status = document.getElementById("status").value;
+    const prazo = document.getElementById("prazo").value;
+    const descricao = document.getElementById("descricao").value;
+    const indice = document.getElementById("indiceEdicao").value;
+
+    const tabela = document.getElementById("tabelaProcessos");
+
+    if (indice) {
+      // Editar processo existente
+      const linha = tabela.rows[indice];
+      linha.cells[0].textContent = numero;
+      linha.cells[1].textContent = advogado;
+      linha.cells[2].textContent = status;
+      linha.cells[3].textContent = prazo;
+      linha.cells[4].textContent = descricao;
+      alert("Processo atualizado com sucesso!");
+    } else {
+      // Adicionar novo processo
+      const novaLinha = tabela.insertRow(-1);
+      novaLinha.insertCell(0).textContent = numero;
+      novaLinha.insertCell(1).textContent = advogado;
+      novaLinha.insertCell(2).textContent = status;
+      novaLinha.insertCell(3).textContent = prazo;
+      novaLinha.insertCell(4).textContent = descricao;
+      const acoes = novaLinha.insertCell(5);
+      acoes.innerHTML = `
+        <button class="button" onclick="editarProcesso(this)">Editar</button>
+        <button class="button" onclick="excluirProcesso(this)">Excluir</button>
+      `;
+      alert("Processo cadastrado com sucesso!");
+    }
+
+    document.getElementById("formProcesso").style.display = "none";
+  }
+
+  function editarProcesso(botao) {
+    const linha = botao.parentNode.parentNode;
+    const indice = linha.rowIndex;
+    document.getElementById("indiceEdicao").value = indice;
+    document.getElementById("formProcesso").style.display = "block";
+    document.getElementById("tituloFormulario").textContent = "Editar Processo";
+    document.getElementById("numero").value = linha.cells[0].textContent;
+    document.getElementById("advogado").value = linha.cells[1].textContent;
+    document.getElementById("status").value = linha.cells[2].textContent;
+    document.getElementById("prazo").value = linha.cells[3].textContent;
+    document.getElementById("descricao").value = linha.cells[4].textContent;
+  }
+
+  function excluirProcesso(botao) {
+    if (confirm("Deseja realmente excluir este processo?")) {
+      botao.parentNode.parentNode.remove();
+      alert("Processo excluído com sucesso!");
+    }
+  }
+</script>
+
+</body>
+</html>
